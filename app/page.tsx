@@ -21,7 +21,7 @@ export default function Home() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const response = await fetch("./api/shorten", {
+    const response = await fetch("/api/shorten", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
