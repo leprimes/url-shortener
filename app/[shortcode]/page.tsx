@@ -12,6 +12,8 @@ export default async function RedirectPage(props: { params: Params }) {
 
   const urlEntry = await Url.findOne({ shortCode });
 
+  console.log(urlEntry);
+
   if (!urlEntry) {
     return <Feedback feedback="URL not found." />;
   }
