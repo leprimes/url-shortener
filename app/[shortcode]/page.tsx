@@ -3,12 +3,18 @@ import dbConnect from "@/lib/db";
 import { Url } from "@/models/Url";
 import Feedback from "@/components/Feedback";
 
-type Params = Promise<{ shortCode: string }>;
+type Params = { shortCode: string };
 
-export default async function RedirectPage(props: { params: Params }) {
-  const { shortCode } = await props.params;
+export const dynamic = "force-dynamic";
 
-  console.log(shortCode);
+export default async function RedirectPage({ params }: { params: Params }) {
+  const { shortCode } = params;
+
+  if (!shortCode) {
+    return <Feedback feedback="Invalid or missing shortcode." />;
+  }
+
+  console.log("Shortcode:", shortCode);
 
   await dbConnect();
 
@@ -20,9 +26,9 @@ export default async function RedirectPage(props: { params: Params }) {
     return <Feedback feedback="URL not found." />;
   }
 
-  if (urlEntry.expiresAt < Date.now()) {
+  if (urlEntry.expiresAt.getTime() < Date.now()) {
     return <Feedback feedback="This link has expired." />;
-  } else {
-    return redirect(urlEntry.longUrl);
   }
+
+  redirect(urlEntry.longUrl);
 }
