@@ -3,16 +3,14 @@ import dbConnect from "@/lib/db";
 import { Url } from "@/models/Url";
 import Feedback from "@/components/Feedback";
 
-export default async function RedirectPage({
-  params,
-}: {
-  params: { shortcode: string };
-}) {
-  const { shortcode } = params;
+type Params = Promise<{ shortCode: string }>;
+
+export default async function RedirectPage(props: { params: Params }) {
+  const { shortCode } = await props.params;
 
   await dbConnect();
 
-  const urlEntry = await Url.findOne({ shortCode: shortcode });
+  const urlEntry = await Url.findOne({ shortCode });
 
   if (!urlEntry) {
     return <Feedback feedback="URL not found." />;
