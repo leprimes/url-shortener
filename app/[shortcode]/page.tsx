@@ -8,6 +8,8 @@ type Params = Promise<{ shortCode: string }>;
 export default async function RedirectPage(props: { params: Params }) {
   const { shortCode } = await props.params;
 
+  console.log(shortCode);
+
   await dbConnect();
 
   const urlEntry = await Url.findOne({ shortCode });
