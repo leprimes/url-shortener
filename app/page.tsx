@@ -13,7 +13,9 @@ export default function Home() {
     try {
       await navigator.clipboard.writeText(shortUrl);
       setCopied(true);
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {

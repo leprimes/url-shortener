@@ -8,10 +8,6 @@ export async function POST(req: Request) {
   const headersList = await headers();
   const host = headersList.get("host");
 
-  console.log(host);
-
-  console.log(longUrl);
-
   try {
     await dbConnect();
 
@@ -19,11 +15,11 @@ export async function POST(req: Request) {
 
     const shortUrl = host + "/" + shortCode;
 
-    const newUrl = await Url.create({ longUrl, shortCode });
+    await Url.create({ longUrl, shortCode });
 
     return Response.json({ status: 200, shortUrl });
   } catch (error) {
-    return Response.json({ status: 500 });
+    return Response.json({ status: 500, error });
   }
 }
 
