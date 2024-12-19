@@ -3,12 +3,12 @@ import dbConnect from "@/lib/db";
 import { Url } from "@/models/Url";
 import Feedback from "@/components/Feedback";
 
-type Params = { shortCode: string };
+type Params = Promise<{ shortCode: string }>;
 
 export const dynamic = "force-dynamic";
 
 export default async function RedirectPage({ params }: { params: Params }) {
-  const { shortCode } = params;
+  const { shortCode } = await params;
 
   if (!shortCode) {
     return <Feedback feedback="Invalid or missing shortcode." />;
